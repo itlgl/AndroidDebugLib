@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+
+    <title>Android App Debug View</title>
+</head>
+<body>
+<header>
+    <h1>App名称：${appName}</h1>
+    <h4>版本名称：${appVersionName}</h4>
+    <h4>版本号：${appVersionCode}</h4>
+</header>
+
+<script src="/js/jquery-3.5.1.min.js"></script>
+<script>
+    function onSendApdu() {
+        console.log("onSendApdu");
+        var apdu = $("#sendApdu").val();
+        console.log("apdu=" + apdu);
+
+        var data = new FormData();
+        data.append('method', 'sendApdu');
+        data.append('param', apdu);
+        $.ajax({
+            type:'post',
+            url:'/',
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function(data) {
+                console.log("sendApdu success");
+                $("#receiveApdu").val(data);
+            },
+            error: function() {
+                console.log('sendApdu error');
+                $("#receiveApdu").val('error');
+            }
+        });
+    }
+
+    function onSendClipboard() {
+        console.log("onSendClipboard");
+        var text = $("#sendClipboard").val();
+        console.log("text=" + text);
+
+        var data = new FormData();
+        data.append('method', 'sendClipboard');
+        data.append('param', text);
+        $.ajax({
+            type:'post',
+            url:'/',
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function(data) {
+                console.log("sendClipboard success");
+                $('#sendClipboardResult').text('已经复制到手机剪贴板上');
+            },
+            error: function() {
+                console.log("sendClipboard error");
+                $('#sendClipboardResult').text("复制失败");
+            }
+        });
+    }
+
+    function onSendCommand() {
+        console.log("sendCommand");
+        var command = $("#sendCommand").val();
+        console.log("command=" + command);
+
+        var data = new FormData();
+        data.append('method', 'sendCommand');
+        data.append('param', command);
+        $.ajax({
+            type:'post',
+            url:'/',
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function(data) {
+                console.log("sendCommand success");
+                $("#receiveApdu").val(data);
+            },
+            error: function() {
+                console.log('sendCommand error');
+                $("#receiveApdu").val('error');
+            }
+        });
+    }
+
+    function onSendMessage() {
+        console.log("onSendClipboard");
+        var text = $("#sendClipboard").val();
+        console.log("text=" + text);
+
+        var data = new FormData();
+        data.append('method', 'sendClipboard');
+        data.append('param', text);
+        $.ajax({
+            type:'post',
+            url:'/',
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function(data) {
+                console.log("sendClipboard success");
+                $('#sendMessageResult').text('发送消息成功');
+            },
+            error: function() {
+                console.log("sendClipboard error");
+                $('#sendMessageResult').text("发送消息失败");
+            }
+        });
+    }
+</script>
+
+<hr/>
+<h4>收发数据</h4>
+发送Apdu：<input type="text" id="sendApdu" style="width:70%;" /><br/>
+返回Apdu：<input type="text" id="receiveApdu" style="width:70%;" /><br/>
+<input type="button" onclick="onSendApdu()" value="发送Apdu" />
+<br/><br/>
+手机粘贴板：<input type="text" id="sendClipboard" style="width:70%;" /><br/>
+<div id="sendClipboardResult"></div>
+<input type="button" onclick="onSendClipboard()" value="发送到手机粘贴板" />
+<br/><br/>
+发送Command：<input type="text" id="sendCommand" style="width:70%;" /><br/>
+返回Command：<input type="text" id="receiveCommand" style="width:70%;" /><br/>
+<input type="button" onclick="onSendCommand()" value="发送Command" />
+<br/><br/>
+发送Message：<input type="text" id="sendMessage" style="width:70%;" /><br/>
+<div id="sendMessageResult"></div>
+<input type="button" onclick="" value="发送Message" />
+<hr/>
+<h4>查看文件</h4>
+<a href="/app/data/data/${packageName}/" title="查看app的文件">查看app的文件</a>
+<a href="/app/mnt/sdcard/" title="查看sdcard的文件">查看sdcard的文件</a>
+<hr/>
+</body>
+</html>

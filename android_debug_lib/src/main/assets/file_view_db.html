@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>${title}</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+body {
+	background: #fff;
+}
+	</style>
+</head>
+
+<body>
+
+<script src="/js/jquery-3.5.1.min.js"></script>
+<script>
+    function onExecSql() {
+        console.log("onExecSql");
+        var sql = $("#sql").val();
+        console.log("sql=" + sql);
+        var url = window.location.pathname;
+        var data = new FormData();
+        data.append('sql', sql);
+        $.ajax({
+            type:'post',
+            url:url,
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function(data) {
+                console.log("execSql success");
+                $("#sqlExecResult").html(data);
+            },
+            error: function() {
+                console.log('execSql error');
+                $("#sqlExecResult").html('execSql error');
+            }
+        });
+    }
+</script>
+
+<header>
+    <h1>${path}</h1>
+</header>
+<hr/>
+<pre>
+数据库信息：
+${dbInfo}
+</pre>
+<hr/>
+<input type="text" style="width:70%;" id="sql" />
+<input type="button" onclick="onExecSql()" value="执行sql"/>
+<hr/>
+sql执行结果：
+<pre id="sqlExecResult">
+</pre>
+<hr/>
+</body>
+
+</html>

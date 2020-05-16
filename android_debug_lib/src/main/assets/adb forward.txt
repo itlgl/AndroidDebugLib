@@ -1,0 +1,10 @@
+adb forward tcp:8888 tcp:9999
+执行完该命令后，转发PC机8888端口的数据到手机的9999端口。
+
+adb forward --list
+查看一下转发是否成功，只有通过USB成功连接了手机该命令才能成功
+
+adb forward --remove tcp:8888
+停止转发
+
+https://www.jianshu.com/p/63c4d5c31909
