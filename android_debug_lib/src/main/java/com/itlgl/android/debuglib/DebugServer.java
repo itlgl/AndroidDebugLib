@@ -190,12 +190,7 @@ public class DebugServer extends NanoHTTPD {
                 return responseTextError("uri=" + strUri + ",param is null!");
             }
 
-            //获取剪贴板管理器：
-            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            // 创建普通字符型ClipData
-            ClipData mClipData = ClipData.newPlainText(param, param);
-            // 将ClipData内容放到系统剪贴板里。
-            cm.setPrimaryClip(mClipData);
+            AppUtils.copyToClipboardThread(context, param);
 
             return responseText("copy '" + param + "' to mobile clipboard");
         } else if("sendMessage".equalsIgnoreCase(method)) {
