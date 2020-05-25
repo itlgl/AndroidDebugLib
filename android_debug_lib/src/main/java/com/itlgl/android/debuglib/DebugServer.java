@@ -318,8 +318,16 @@ public class DebugServer extends NanoHTTPD {
         if(file.getName().endsWith(".db")) {
             return fileViewDbResponse(session, file);
         }
+        if(file.getName().endsWith(".xml")) {
+            return fileViewXmlResponse(session, file);
+        }
 
         return responseText("can not view file:" + file.getName());
+    }
+
+    private Response fileViewXmlResponse(IHTTPSession session, File file) throws Exception {
+        String xmlStr = readFileString(file);
+        return newFixedLengthResponse(Response.Status.OK, "application/xml", xmlStr);
     }
 
     private Response fileViewDbResponse(IHTTPSession session, File dbFile) throws Exception {
@@ -330,6 +338,17 @@ public class DebugServer extends NanoHTTPD {
                 .replace("${dbInfo}", dbInfo)
                 .replace("${path}", dbFile.getAbsolutePath());
         return newFixedLengthResponse(Response.Status.OK, "text/html", html);
+    }
+
+    private String readFileString(File file) throws Exception {
+        InputStream is = new FileInputStream(file);
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        StringBuilder builder = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            builder.append(line).append("\n");
+        }
+        return builder.toString();
     }
 
     private String readAssetsFileString(String fileName) throws Exception {

@@ -1,0 +1,8 @@
+<resources>
+    <string name="android_debug_lib_name">DebugLib</string>
+    <string name="android_debug_lib_title">Android Debug Library</string>
+    <string name="android_debug_lib_port">Port setting：</string>
+    <string name="android_debug_lib_start_debug">Start Debug</string>
+    <string name="android_debug_lib_stop_debug">Stop Debug</string>
+    <string name="android_debug_lib_adb_cmd">adb forward command\nadb forward tcp: 8888 tcp: 9999\nAfter executing this command, forward the data from port 8888 of the PC to port 9999 of the mobile phone.\n\nadb forward --list\nCheck if the forwarding is successful, this command can be successful only if the phone is successfully connected via USB\n\nadb forward --remove tcp: 8888\nStop forwarding</string>
+</resources>
