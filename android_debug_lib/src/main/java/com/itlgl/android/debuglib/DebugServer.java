@@ -281,12 +281,18 @@ public class DebugServer extends NanoHTTPD {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                // 有些文件名字会超过50个字符，导致FILE_ITEM_SPACE.substring超过50报错，格式化一下，大于45就把中间替换为...
+                String childFileNameFormat = childFile.getName();
+                if(childFileNameFormat.length() > 45) {
+                    childFileNameFormat = childFileNameFormat.substring(0, 20) + "..." + childFileNameFormat.substring(childFileNameFormat.length() - 20);
+                }
                 String item = fileListItemTemp
                         .replace("${href}", childFile.getName() + (childFile.isDirectory() ? "/" : ""))
-                        .replace("${title}", childFile.getName())
-                        .replace("${text}", childFile.getName())
+                        .replace("${title}", childFileNameFormat)
+                        .replace("${text}", childFileNameFormat)
                         .replace("${date}", fileDate)
-                        .replace("${space}", FILE_ITEM_SPACE.substring(childFile.getName().length()));
+                        .replace("${space}", FILE_ITEM_SPACE.substring(childFileNameFormat.length()));
                 if(childFile.isFile() && childFile.canRead()) {
                     item = item
                             .replace("${style3}", "")
