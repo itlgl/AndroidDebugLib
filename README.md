@@ -1,6 +1,6 @@
 # Android Debug Lib
-![License](https://img.shields.io/static/v1?label=license&message=Apache%202.0&color=blue)
-![Api Level](https://img.shields.io/static/v1?label=api&message=14%2B&color=blue)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![Api Level](https://img.shields.io/badge/api-14%2B-brightgreen.svg)
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib/badge.svg)
 
 Android Debug Lib是一个功能强大的调试库，方便开发者调试应用中的数据库、首选项等功能
