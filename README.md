@@ -1,9 +1,10 @@
 # Android Debug Lib
-[![License](https://img.shields.io/static/v1?label=license&message=Apache 2.0&color=brightgreen)](https://github.com/itlgl/AndroidDebugLib/blob/master/LICENSE)
-[![Api Level](https://img.shields.io/static/v1?label=api&message=14+&color=brightgreen)](https://github.com/itlgl/AndroidDebugLib/blob/master/LICENSE)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib)
+![License](https://img.shields.io/static/v1?label=license&message=Apache%202.0&color=blue)
+![Api Level](https://img.shields.io/static/v1?label=api&message=14%2B&color=blue)
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib/badge.svg)
 
 Android Debug Lib是一个功能强大的调试库，方便开发者调试应用中的数据库、首选项等功能
+
 **不要在release版本中导入这个库，这将使你的应用毫无安全性可言**
 
 ## Android Debug Lib可以做什么
