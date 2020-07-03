@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermissionTask() {
-        if(!hasPermission()) {
+        if (!hasPermission()) {
             requestPermissionTask();
         }
     }
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean hasPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : PERMISSION_PARAMS) {
-                if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -74,19 +74,22 @@ public class MainActivity extends AppCompatActivity {
         {
             MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, "test1.db");
             SQLiteDatabase db = helper.getWritableDatabase();
-            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`) values ('张三', '13122233445', 18)");
+            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`, `bytes`) values (?,?,?,?)",
+                    new Object[]{"张三", "13122233445", 18, new byte[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}});
         }
 
         {
             MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, "test2.db");
             SQLiteDatabase db = helper.getWritableDatabase();
-            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`) values ('张三', '13122233445', 18)");
+            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`, `bytes`) values (?,?,?,?)",
+                    new Object[]{"张三", "13122233445", 18, new byte[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}});
         }
 
         {
             MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, "test3.db");
             SQLiteDatabase db = helper.getWritableDatabase();
-            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`) values ('张三', '13122233445', 18)");
+            db.execSQL("insert into `tbl_test` (`name`, `telephone`, `age`, `bytes`) values (?,?,?,?)",
+                    new Object[]{"张三", "13122233445", 18, new byte[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}});
         }
     }
 

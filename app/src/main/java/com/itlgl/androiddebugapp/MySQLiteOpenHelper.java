@@ -13,7 +13,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `tbl_test` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `telephone` TEXT, `age` INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `tbl_test` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `telephone` TEXT, `age` INTEGER, `bytes` BLOB)");
     }
 
     @Override

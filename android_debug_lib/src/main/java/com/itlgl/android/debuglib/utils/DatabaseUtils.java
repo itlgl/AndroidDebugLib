@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
+import com.itlgl.java.util.ByteUtil;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,12 +103,25 @@ public class DatabaseUtils {
             while (cursor.moveToNext()) {
                 for (int i = 0; i < columnCount; i++) {
                     String value = null;
-                    try {
-                        value = cursor.getString(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    do {
+                        try {
+                            value = cursor.getString(i);
+                            break;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            byte[] blob = cursor.getBlob(i);
+                            value = "[BLOB]" + ByteUtil.toHex(blob);
+                            break;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         value = "[non-string-value]";
-                    }
+                    } while (false);
+
 
                     if(i != 0) {
                         resultBuilder.append(", ");
