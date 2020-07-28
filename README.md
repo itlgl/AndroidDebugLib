@@ -41,8 +41,8 @@ adb forward tcp:8080 tcp:8080
 
 ## 使用截图
 
-<img src="https://raw.githubusercontent.com/itlgl/AndroidDebugLib/master/screenshot/1.png" height="300" /><br/>
-<img src="https://raw.githubusercontent.com/itlgl/AndroidDebugLib/master/screenshot/2.png" height="300" /><br/>
+<img src="https://gitee.com/itlgl/AndroidDebugLib/raw/master/screenshot/1.png" height="300" /><br/>
+<img src="https://gitee.com/itlgl/AndroidDebugLib/raw/master/screenshot/2.png" height="300" /><br/>
 
 ## License
 
