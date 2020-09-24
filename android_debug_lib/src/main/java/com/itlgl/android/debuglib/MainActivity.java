@@ -30,6 +30,10 @@ public class MainActivity extends Activity {
     }
 
     private void initView() {
+        if(getActionBar() != null) {
+            getActionBar().hide();
+        }
+
         iv_app_icon = findViewById(R.id.iv_app_icon);
         tv_app_name = findViewById(R.id.tv_app_name);
         tv_app_package = findViewById(R.id.tv_app_package);

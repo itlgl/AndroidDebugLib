@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#00BCD4">
+        android:background="#009688">
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,20 +80,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="8080" />
+                    android:text="8080"
+                    android:textColor="#000" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_start_debug"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/android_debug_lib_start_debug" />
+                android:text="@string/android_debug_lib_start_debug"
+                android:textColor="#000" />
 
             <Button
                 android:id="@+id/btn_stop_debug"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/android_debug_lib_stop_debug" />
+                android:text="@string/android_debug_lib_stop_debug"
+                android:textColor="#000" />
 
             <TextView
                 android:id="@+id/tv_adb_cmd"
