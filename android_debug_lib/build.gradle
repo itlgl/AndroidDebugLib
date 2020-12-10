@@ -27,7 +27,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.nanohttpd:nanohttpd:2.2.0'
-    implementation 'com.itlgl:byteutil:0.0.5'
+    implementation 'com.itlgl:byteutil:0.0.7'
 
 //    implementation 'androidx.appcompat:appcompat:1.1.0'
 //    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
