@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="android_debug_lib_port">8080</integer>
+</resources>

@@ -3,16 +3,12 @@
     package="com.itlgl.android.debuglib">
 
     <application>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/android_debug_lib_name"
-            android:launchMode="singleInstance">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <provider
+            android:name=".AndroidDebugLibInitProvider"
+            android:authorities="${applicationId}.DebugDBInitProvider"
+            android:enabled="true"
+            android:exported="false" />
+
     </application>
-
 </manifest>

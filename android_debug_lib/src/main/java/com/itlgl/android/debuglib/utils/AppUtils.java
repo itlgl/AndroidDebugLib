@@ -72,9 +72,7 @@ public class AppUtils {
      */
     public static synchronized String getPackageName(Context context) {
         try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
-            return info.packageName;
+            return context.getPackageName();
         } catch (Exception e) {
             e.printStackTrace();
         }

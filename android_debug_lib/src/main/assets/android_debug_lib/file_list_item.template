@@ -1,0 +1,6 @@
+<tr>
+    <td><a href="${fileHref}" style="text-decoration:underline;">${fileName}</a></td>
+    <td>${fileSize}</td>
+    <td>${updateTime}</td>
+    <td><a href="${downloadHref}" class="layui-btn layui-btn-radius layui-btn-primary layui-border-black ${hideDownload}">下载文件</a></td>
+</tr>
