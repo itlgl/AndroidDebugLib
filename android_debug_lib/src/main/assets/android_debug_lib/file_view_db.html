@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>查看数据库</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<div style="margin-top: 15px; margin-left: 20px; margin-right: 20px;">
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>数据库</legend>
+        <div class="layui-field-box">
+            文件路径：${filePath}
+        </div>
+    </fieldset>
+
+    <div class="layui-row layui-col-space30">
+        <div class="layui-col-md3">
+
+            <div class="layui-panel">
+                <p style="height: 36px; line-height:36px; text-align: center;">
+                    数据库表列表
+                </p>
+
+                <ul class="layui-menu" id="menuTables">
+                    <li class="layui-menu-item-divider"></li>
+                    ${dbTableItems}
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="layui-col-md9">
+            <form id="formSql" class="layui-form layui-form-pane" action="/app${filePath}">
+                <input type="text" name="viewType" value="db" class="layui-hide"/>
+
+                <div class="layui-form-item" pane>
+                    <div class="layui-inline" style="width: 80%;">
+                        <label class="layui-form-label">sql语句</label>
+                        <div class="layui-input-block">
+                            <input id="inputSql" type="text" name="sql" value="${sqlValue}" required lay-verify="required"
+                                   placeholder="请输入任意sql语句" autocomplete="off" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">执行sql语句</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="layui-form">
+                <table class="layui-table" lay-even>
+                    <thead>
+                    <tr>
+<!--                        <th>文件名称</th>-->
+<!--                        <th>文件大小</th>-->
+<!--                        <th>更新时间</th>-->
+<!--                        <th>文件操作</th>-->
+                        ${sqlTitles}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    ${sqlRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use(['dropdown', 'util'], function(){
+      var dropdown = layui.dropdown
+      ,util = layui.util
+      ,$ = layui.jquery;
+
+      //菜单点击事件，其中 menuTables 对应的是菜单结构上的 id 指
+      dropdown.on('click(menuTables)', function(options){
+        var othis = $(this); //当前菜单列表的 DOM 对象
+        console.log(options.tableName); //菜单列表的 lay-options 中的参数
+        $("#inputSql").val("select * from " + options.tableName + " limit 0,15");
+        $("#formSql").submit();
+      });
+    });
+
+</script>
+
+</body>
+</html>

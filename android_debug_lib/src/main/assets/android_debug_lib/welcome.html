@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Android Debug Lib</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<div style="margin-top: 15px; margin-left: 20px; margin-right: 20px;">
+    <header>
+        <h1>${path}</h1>
+    </header>
+
+    <div class="layui-form">
+        <table class="layui-table" lay-even lay-skin="nob">
+            <colgroup>
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>文件名称</th>
+                <th>文件大小</th>
+                <th>更新时间</th>
+                <th>文件操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="${parentFile}" style="text-decoration:underline;">上一级</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            ${file_list}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/layui/layui.js"></script>
+<script>
+
+</script>
+
+</body>
+</html>

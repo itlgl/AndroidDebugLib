@@ -47,6 +47,7 @@ public class Utils {
             "</head>\n" +
             "<body>\n" +
             "<header>\n" +
+            "    <h1>Server Error 500</h1>\n" +
             "    <h4>URI：${URI}</h4>\n" +
             "</header>\n" +
             "<hr/>\n" +
