@@ -35,6 +35,8 @@ public class AndroidDebugServer extends NanoHTTPD {
 
             return response;
         } catch (Exception e) {
+            LogUtils.e("handle error, %s", e);
+            e.printStackTrace();
             return Utils.errorResponse(strUri, e);
         }
     }

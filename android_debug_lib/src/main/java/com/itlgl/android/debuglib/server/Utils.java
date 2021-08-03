@@ -35,6 +35,8 @@ public class Utils {
         MIME_TYPE_MAP.put(".woff", "font/woff");
         MIME_TYPE_MAP.put(".woff2", "font/woff2");
         MIME_TYPE_MAP.put(".eot", "font/eot");
+        MIME_TYPE_MAP.put(".json", "application/json");
+        MIME_TYPE_MAP.put(".xml", "application/xml");
     }
 
     private static final String ERROR_HTML = "<!DOCTYPE html>\n" +
@@ -168,5 +170,9 @@ public class Utils {
         final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return FILE_SIZE_FORMAT.format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    public static NanoHTTPD.Response responseJson(String json) {
+        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/json", json);
     }
 }

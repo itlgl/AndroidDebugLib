@@ -28,7 +28,7 @@
             <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item"><a href="javascript:loadAppFile();">##i18n.adl_view_app_files##</a></li>
                 <li class="layui-nav-item"><a href="javascript:loadSdcardFile();">##i18n.adl_view_sdcard_files##</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">##i18n.adl_send_to_clipboard##</a></li>
+                <li class="layui-nav-item"><a href="javascript:gotoClipboard();">##i18n.adl_others##</a></li>
             </ul>
         </div>
     </div>
@@ -87,7 +87,7 @@
     }
 
     function gotoClipboard() {
-        document.getElementById('iframeContainer').src="/file_list.html";
+        document.getElementById('iframeContainer').src="/others.html";
     }
 
     /**

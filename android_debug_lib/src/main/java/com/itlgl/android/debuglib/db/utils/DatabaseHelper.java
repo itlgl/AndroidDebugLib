@@ -28,7 +28,7 @@ import com.itlgl.android.debuglib.db.model.Response;
 import com.itlgl.android.debuglib.db.model.RowDataRequest;
 import com.itlgl.android.debuglib.db.model.TableDataResponse;
 import com.itlgl.android.debuglib.db.model.UpdateRowResponse;
-import com.itlgl.java.util.ByteUtil;
+import com.itlgl.java.util.ByteUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -203,7 +203,7 @@ public class DatabaseHelper {
                         switch (cursor.getType(i)) {
                             case Cursor.FIELD_TYPE_BLOB:
                                 columnData.dataType = DataType.TEXT;
-                                columnData.value = ByteUtil.toHex(cursor.getBlob(i));
+                                columnData.value = ByteUtils.toHex(cursor.getBlob(i));
                                 break;
                             case Cursor.FIELD_TYPE_FLOAT:
                                 columnData.dataType = DataType.REAL;

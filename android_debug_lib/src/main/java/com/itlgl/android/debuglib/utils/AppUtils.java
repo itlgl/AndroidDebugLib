@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.Toast;
 
 public class AppUtils {
 
@@ -110,6 +111,15 @@ public class AppUtils {
                 ClipData mClipData = ClipData.newPlainText(text, text);
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
+            }
+        });
+    }
+
+    public static void showToast(final Context context, final String msg) {
+        MAIN_HANDLER.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

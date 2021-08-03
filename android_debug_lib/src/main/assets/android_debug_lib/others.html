@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Android Debug Lib</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<div style="margin-top: 15px; margin-left: 20px; margin-right: 20px;">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>##i18n.adl_test_toast##</legend>
+        <div class="layui-field-box">
+
+            <div class="layui-form-item" pane>
+                <div class="layui-inline" style="width: 80%;">
+                    <label class="layui-form-label">Text</label>
+                    <div class="layui-input-block">
+                        <input id="inputToastText" type="text" required
+                               lay-verify="required"
+                               placeholder="##i18n.adl_input_text##" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div id="btnToast" class="layui-inline">
+                    <button class="layui-btn">
+                        ##i18n.adl_send##
+                    </button>
+                </div>
+            </div>
+
+            <pre class="layui-code">curl 'http://localhost:8080/api/toast' -H 'Content-Type: application/json;charset=utf-8' --data-raw $'{"message":"Hello world!"}'</pre>
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>##i18n.adl_send_to_clipboard##</legend>
+        <div class="layui-field-box">
+
+            <div class="layui-form-item" pane>
+                <div class="layui-inline" style="width: 80%;">
+                    <label class="layui-form-label">Text</label>
+                    <div class="layui-input-block">
+                        <input id="inputClipboardText" type="text" required
+                               lay-verify="required"
+                               placeholder="##i18n.adl_input_text##" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div id="btnClipboard" class="layui-inline">
+                    <button class="layui-btn">
+                        ##i18n.adl_send##
+                    </button>
+                </div>
+            </div>
+
+            <pre class="layui-code">curl 'http://localhost:8080/api/clipboard' -H 'Content-Type: application/json;charset=utf-8' --data-raw $'{"message":"00a4040000"}'</pre>
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>##i18n.adl_test_command##</legend>
+        <div class="layui-field-box">
+
+            <div class="layui-form-item" pane>
+                <div class="layui-inline" style="width: 80%;">
+                    <label class="layui-form-label">Command</label>
+                    <div class="layui-input-block">
+                        <input id="inputCommandText" type="text" required
+                               lay-verify="required"
+                               placeholder="##i18n.adl_input_command##" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button id="btnCommand" class="layui-btn">
+                        ##i18n.adl_send##
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane>
+                <div class="layui-inline" style="width: 80%;">
+                    <label class="layui-form-label">Response</label>
+                    <div class="layui-input-block">
+                        <input id="inputCommandResponse" type="text" required
+                               lay-verify="required"
+                               placeholder="response here" autocomplete="off"
+                               class="layui-input"/>
+                    </div>
+                </div>
+            </div>
+
+            <pre class="layui-code">curl 'http://localhost:8080/api/command' -H 'Content-Type: application/json;charset=utf-8' --data-raw $'{"message":"00a4040000"}'</pre>
+
+        </div>
+    </fieldset>
+</div>
+
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use(['util', 'layer'], function(){
+        var $ = layui.jquery
+        ,layer = layui.layer;
+
+        $("#btnToast").click(function(){
+          var textStr = $("#inputToastText").val();
+          if(textStr == null || textStr == '') {
+            layer.msg('##i18n.adl_input_text##');
+            return;
+          }
+          $.ajax({
+            type: "POST",
+            url: "/api/toast",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify({"message":textStr}),
+            dataType: "json",
+            success:function (message) {
+                if(message.code == 0) {
+                    layer.msg('send success');
+                } else {
+                    layer.msg('send failed, code=' + message.code);
+                }
+            },
+            error:function (message) {
+                layer.msg("send toast error");
+            }
+          });
+        });
+
+        $("#btnClipboard").click(function(){
+          var textStr = $("#inputClipboardText").val();
+          if(textStr == null || textStr == '') {
+            layer.msg('##i18n.adl_input_text##');
+            return;
+          }
+          $.ajax({
+            type: "POST",
+            url: "/api/clipboard",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify({"message":textStr}),
+            dataType: "json",
+            success:function (message) {
+                if(message.code == 0) {
+                    layer.msg('send success');
+                } else {
+                    layer.msg('send failed, code=' + message.code);
+                }
+            },
+            error:function (message) {
+                layer.msg("send clipboard text error");
+            }
+          });
+        });
+
+        $("#btnCommand").click(function(){
+          var textStr = $("#inputCommandText").val();
+          if(textStr == null || textStr == '') {
+            layer.msg('##i18n.adl_input_command##');
+            return;
+          }
+          $.ajax({
+            type: "POST",
+            url: "/api/command",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify({"message":textStr}),
+            dataType: "json",
+            success:function (message) {
+                if(message.code == 0) {
+                    $("#inputCommandResponse").val(message.responseHex);
+                } else {
+                    layer.msg('send failed, code=' + message.code);
+                }
+            },
+            error:function (message) {
+                layer.msg("send command error");
+            }
+          });
+        });
+    });
+
+
+
+</script>
+
+</body>
+</html>
