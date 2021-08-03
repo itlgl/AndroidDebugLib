@@ -1,7 +1,6 @@
 package com.itlgl.android.debuglib.server;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.itlgl.android.debuglib.utils.LogUtils;
 
@@ -14,12 +13,12 @@ import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fi.iki.elonen.NanoHTTPD;
 
 public class Utils {
-
-    public static final String MIME_TYPE_HTML = "text/html";
 
     private static final Map<String, String> MIME_TYPE_MAP = new HashMap<>();
     static {
@@ -77,6 +76,7 @@ public class Utils {
             "</body>\n" +
             "</html>";
     private static final DecimalFormat FILE_SIZE_FORMAT = new DecimalFormat("#,##0.#");
+    private static final Pattern I18N_VALUE_PATTERN = Pattern.compile("##i18n\\.([0-9a-zA-Z_]+)##");
 
     private Utils() {
         // This class in not publicly instantiable
@@ -96,6 +96,14 @@ public class Utils {
         return sw.toString();
     }
 
+    private static String getRStringValue(Context context, String idValue) {
+        int resId = context.getResources().getIdentifier(idValue, "string", context.getPackageName());
+        if(resId == 0) {
+            return null;
+        }
+        return context.getResources().getString(resId);
+    }
+
     public static String readAssetsFileString(Context context, String fileName) throws IOException {
         InputStream is = context.getAssets().open("android_debug_lib/" + fileName);
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
@@ -105,6 +113,22 @@ public class Utils {
             builder.append(line).append("\n");
         }
         br.close();
+
+        if(fileName.endsWith(".html")) {
+            String html = builder.toString();
+            // 国际化字符串替换
+            Matcher matcher = I18N_VALUE_PATTERN.matcher(html);
+            while (matcher.find()) {
+                String idValue = matcher.group(1);
+                String stringValue = getRStringValue(context, idValue);
+                if (stringValue == null) {
+                    stringValue = idValue;
+                }
+                html = html.replace(matcher.group(), stringValue);
+            }
+            return html;
+        }
+
         return builder.toString();
     }
 
@@ -120,10 +144,13 @@ public class Utils {
             String miniType = MIME_TYPE_MAP.get(exName);
             if(miniType == null) miniType = "application/octet-stream";
             String fileName = strUri.substring(1);
-            InputStream is = context.getAssets().open("android_debug_lib/" + fileName);
-            // logd("responseResourceFile is = " + is + ",miniType = " + miniType);
-
-            return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, miniType, is, is.available());
+            if(exName.equalsIgnoreCase(".html")) {
+                String html = readAssetsFileString(context, fileName);
+                return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, miniType, html);
+            } else {
+                InputStream is = context.getAssets().open("android_debug_lib/" + fileName);
+                return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, miniType, is, is.available());
+            }
         } catch (Exception e) {
             //e.printStackTrace();
             LogUtils.i("response strUir=%s error, e=%s, return 404", strUri, e);

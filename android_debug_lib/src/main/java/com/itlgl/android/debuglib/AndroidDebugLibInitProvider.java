@@ -15,7 +15,7 @@ public class AndroidDebugLibInitProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        int port = getContext().getResources().getInteger(R.integer.android_debug_lib_port);
+        int port = getContext().getResources().getInteger(R.integer.adl_port);
         AndroidDebugServer server = new AndroidDebugServer(getContext(), port);
         try {
             server.start();

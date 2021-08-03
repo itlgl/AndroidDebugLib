@@ -21,7 +21,7 @@
 
             <div class="layui-panel">
                 <p style="height: 36px; line-height:36px; text-align: center;">
-                    数据库表列表
+                    ##i18n.adl_database_tables##
                 </p>
 
                 <ul class="layui-menu" id="menuTables">
@@ -38,14 +38,14 @@
 
                 <div class="layui-form-item" pane>
                     <div class="layui-inline" style="width: 80%;">
-                        <label class="layui-form-label">sql语句</label>
+                        <label class="layui-form-label">##i18n.adl_sql##</label>
                         <div class="layui-input-block">
                             <input id="inputSql" type="text" name="sql" value="${sqlValue}" required lay-verify="required"
-                                   placeholder="请输入任意sql语句" autocomplete="off" class="layui-input"/>
+                                   placeholder="##i18n.adl_input_sql##" autocomplete="off" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">执行sql语句</button>
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">##i18n.adl_execute_sql##</button>
                     </div>
                 </div>
             </form>

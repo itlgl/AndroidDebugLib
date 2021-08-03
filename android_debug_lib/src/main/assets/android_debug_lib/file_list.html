@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Android Debug Lib</title>
+    <title>${path}</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 <body>
@@ -21,15 +21,15 @@
             </colgroup>
             <thead>
             <tr>
-                <th>文件名称</th>
-                <th>文件大小</th>
-                <th>更新时间</th>
-                <th>文件操作</th>
+                <th>##i18n.adl_file_name##</th>
+                <th>##i18n.adl_file_size##</th>
+                <th>##i18n.adl_update_time##</th>
+                <th>##i18n.adl_file_operation##</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><a href="${parentFile}" style="text-decoration:underline;">上一级</a></td>
+                <td><a href="${parentFile}" style="text-decoration:underline;"><i class="layui-icon layui-icon-return"></i></a></td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>不支持的文件格式</title>
+    <title>Not Support File</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 <body>
@@ -11,9 +11,9 @@
 <div style="margin-top: 15px; margin-left: 20px; margin-right: 20px;">
 
     <fieldset class="layui-elem-field layui-field-title">
-        <legend>不支持的文件格式，请选择文件预览的方式</legend>
+        <legend>##i18n.adl_file_format_not_support_tip##</legend>
         <div class="layui-field-box">
-            文件路径：${filePath}
+            ##i18n.adl_file_path_colon##${filePath}
         </div>
     </fieldset>
     <!--<blockquote class="layui-elem-quote layui-text">-->
@@ -23,18 +23,18 @@
 
     <div class="layui-btn-container">
         <a href="${fileHref}?viewType=txt" type="button"
-           class="layui-btn layui-btn-primary layui-border-black">txt文本预览</a>
+           class="layui-btn layui-btn-primary layui-border-black">##i18n.adl_file_view_txt##</a>
         <a href="${fileHref}?viewType=xml" type="button"
-           class="layui-btn layui-btn-primary layui-border-black">XML格式预览</a>
+           class="layui-btn layui-btn-primary layui-border-black">##i18n.adl_file_view_xml##</a>
         <a href="${fileHref}?viewType=json" type="button"
-           class="layui-btn layui-btn-primary layui-border-black">JSON格式预览</a>
+           class="layui-btn layui-btn-primary layui-border-black">##i18n.adl_file_view_json##</a>
         <a href="${fileHref}?viewType=db" type="button"
-           class="layui-btn layui-btn-primary layui-border-black">Sqlite数据库格式预览</a>
+           class="layui-btn layui-btn-primary layui-border-black">##i18n.adl_file_view_db##</a>
     </div>
 
     <blockquote class="layui-elem-quote layui-text" style="margin-top:50px;">
-        想要更多支持格式？<a href="https://github/itlgl/AndroidDebugLib/issues"
-                    target="_blank">提个feature给我吧</a>
+        ##i18n.adl_more_file_format1##<a href="https://github/itlgl/AndroidDebugLib/issues"
+                    target="_blank">##i18n.adl_more_file_format2##</a>
     </blockquote>
 
 </div>

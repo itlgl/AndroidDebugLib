@@ -21,8 +21,6 @@ package com.itlgl.android.debuglib.db.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
 import com.itlgl.android.debuglib.db.SQLiteDB;
@@ -30,6 +28,7 @@ import com.itlgl.android.debuglib.db.model.Response;
 import com.itlgl.android.debuglib.db.model.RowDataRequest;
 import com.itlgl.android.debuglib.db.model.TableDataResponse;
 import com.itlgl.android.debuglib.db.model.UpdateRowResponse;
+import com.itlgl.java.util.ByteUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -204,7 +203,7 @@ public class DatabaseHelper {
                         switch (cursor.getType(i)) {
                             case Cursor.FIELD_TYPE_BLOB:
                                 columnData.dataType = DataType.TEXT;
-                                columnData.value = ConverterUtils.blobToString(cursor.getBlob(i));
+                                columnData.value = ByteUtil.toHex(cursor.getBlob(i));
                                 break;
                             case Cursor.FIELD_TYPE_FLOAT:
                                 columnData.dataType = DataType.REAL;

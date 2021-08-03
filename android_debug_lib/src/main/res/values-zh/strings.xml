@@ -1,0 +1,24 @@
+<resources>
+    <string name="adl_view_app_files">查看App内文件</string>
+    <string name="adl_view_sdcard_files">查看Sdcard文件</string>
+    <string name="adl_send_to_clipboard">发送到手机粘贴板</string>
+    <string name="adl_has_copy_to_clipboard">已复制到粘贴板</string>
+    <string name="adl_file_name">文件名称</string>
+    <string name="adl_file_size">文件大小</string>
+    <string name="adl_update_time">更新时间</string>
+    <string name="adl_file_operation">文件操作</string>
+    <string name="adl_download_file">下载文件</string>
+    <string name="adl_sql">sql语句</string>
+    <string name="adl_input_sql">请输入任意sql语句</string>
+    <string name="adl_execute_sql">执行sql语句</string>
+    <string name="adl_database_tables">数据库表列表</string>
+    <string name="adl_file_format_not_support_tip">不支持的文件格式，请选择文件预览的方式</string>
+    <string name="adl_file_path_colon">文件路径：</string>
+    <string name="adl_file_view_txt">TXT文本预览</string>
+    <string name="adl_file_view_xml">XML格式预览</string>
+    <string name="adl_file_view_json">JSON格式预览</string>
+    <string name="adl_file_view_db">Sqlite数据库格式预览</string>
+    <string name="adl_more_file_format1">想要更多支持格式？</string>
+    <string name="adl_more_file_format2">提个feature给我吧</string>
+    <string name="adl_parent_dir">上一级</string>
+</resources>
