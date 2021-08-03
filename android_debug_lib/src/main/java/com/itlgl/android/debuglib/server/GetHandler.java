@@ -138,17 +138,28 @@ public class GetHandler extends HttpMethodHandler {
             return NanoHTTPD.newFixedLengthResponse("无读取此文件的权限");
         }
         String viewType = session.getParms().get("viewType");
-        if("txt".equalsIgnoreCase(viewType) || file.getName().endsWith(".txt")) {
+        String fileNameLower = file.getName().toLowerCase();
+        if("txt".equalsIgnoreCase(viewType) || fileNameLower.endsWith(".txt")) {
             return responseFileViewTxt(session, file);
         }
-        if("xml".equalsIgnoreCase(viewType) || file.getName().endsWith(".xml")) {
+        if("xml".equalsIgnoreCase(viewType) || fileNameLower.endsWith(".xml")) {
             return responseFileViewXml(session, file);
         }
-        if("json".equalsIgnoreCase(viewType) || file.getName().endsWith(".json")) {
+        if("json".equalsIgnoreCase(viewType) || fileNameLower.endsWith(".json")) {
             return responseFileViewJson(session, file);
         }
-        if("db".equalsIgnoreCase(viewType) || file.getName().endsWith(".db")) {
+        if("db".equalsIgnoreCase(viewType) || fileNameLower.endsWith(".db")) {
             return responseFileViewDb(session, file);
+        }
+        if(fileNameLower.endsWith(".mp3") ||
+                fileNameLower.endsWith(".mp4") ||
+                fileNameLower.endsWith(".aac") ||
+                fileNameLower.endsWith(".flv")
+        ) {
+            return responseFileViewAudioAndVideo(session, file);
+        }
+        if(fileNameLower.endsWith(".jpg") || fileNameLower.endsWith("jpeg")) {
+            return responseFileViewJpg(session, file);
         }
 
         // not support html
@@ -173,6 +184,16 @@ public class GetHandler extends HttpMethodHandler {
     private NanoHTTPD.Response responseFileViewTxt(NanoHTTPD.IHTTPSession session, File file) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(file);
         return NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "text/plain", fis);
+    }
+
+    private NanoHTTPD.Response responseFileViewAudioAndVideo(NanoHTTPD.IHTTPSession session, File file) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(file);
+        return NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "application/octet-stream", fis);
+    }
+
+    private NanoHTTPD.Response responseFileViewJpg(NanoHTTPD.IHTTPSession session, File file) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(file);
+        return NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "image/jpeg", fis);
     }
 
     private NanoHTTPD.Response responseFileViewDb(NanoHTTPD.IHTTPSession session, File file) throws Exception {

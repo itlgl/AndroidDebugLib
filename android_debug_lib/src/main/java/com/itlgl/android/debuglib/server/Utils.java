@@ -20,7 +20,7 @@ import fi.iki.elonen.NanoHTTPD;
 
 public class Utils {
 
-    private static final Map<String, String> MIME_TYPE_MAP = new HashMap<>();
+    public static final Map<String, String> MIME_TYPE_MAP = new HashMap<>();
     static {
         MIME_TYPE_MAP.put(".html", "text/html");
         MIME_TYPE_MAP.put(".css", "text/css");
@@ -37,6 +37,7 @@ public class Utils {
         MIME_TYPE_MAP.put(".eot", "font/eot");
         MIME_TYPE_MAP.put(".json", "application/json");
         MIME_TYPE_MAP.put(".xml", "application/xml");
+        MIME_TYPE_MAP.put(".mp3", "audio/mpeg3");
     }
 
     private static final String ERROR_HTML = "<!DOCTYPE html>\n" +
