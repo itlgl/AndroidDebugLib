@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.itlgl.android.debuglib.AndroidDebugLib;
 import com.itlgl.androiddebugapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initView();
         checkPermissionTask();
+
+        AndroidDebugLib.registerCommandCallback(new AndroidDebugLib.ICommand() {
+            @Override
+            public byte[] handleCommand(byte[] command) throws Exception {
+                return new byte[]{(byte) 0x90, 0x00};
+            }
+        });
     }
 
     private void checkPermissionTask() {

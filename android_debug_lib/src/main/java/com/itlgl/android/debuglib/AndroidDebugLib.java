@@ -1,64 +1,27 @@
 package com.itlgl.android.debuglib;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
+import com.itlgl.android.debuglib.utils.LogUtils;
 
 public class AndroidDebugLib {
-    private static DebugServer debugServer;
-    private static Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    private static ICommand sCommandImpl;
 
-    public static void startDebug(final Context context, final int port) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (AndroidDebugLib.class) {
-                    try {
-                        if(debugServer != null) {
-                            if(debugServer.isAlive()) {
-                                debugServer.stop();
-                            }
-                            debugServer = null;
-                        }
-                        debugServer = new DebugServer(context, port);
-                        debugServer.start();
-                        showToast(context, "Debug Server start on port " + port);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        showToast(context, "Debug Server start Error!\n" + e);
-                    }
-                }
-            }
-        }).start();
+    public interface ICommand {
+        byte[] handleCommand(byte[] command) throws Exception;
     }
 
-    public static void stopDebug() {
-        if(debugServer == null || !debugServer.isAlive()) {
-            return;
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (AndroidDebugLib.class) {
-                    debugServer.stop();
-                }
-            }
-        }).start();
+    /**
+     * 是否打印log
+     * @param log false-不打印log true-打印log
+     */
+    public static void printLog(boolean log) {
+        LogUtils.printLog(log);
     }
 
-    public static void registerDebugCallback(DebugServerCallback callback) {
-        if(debugServer != null) {
-            debugServer.setDebugServerCallback(callback);
-        }
+    public synchronized static void registerCommandCallback(ICommand command) {
+        sCommandImpl = command;
     }
 
-    private static void showToast(final Context context, final String msg) {
-        mainThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+    public synchronized static ICommand getCommandImpl() {
+        return sCommandImpl;
     }
 }

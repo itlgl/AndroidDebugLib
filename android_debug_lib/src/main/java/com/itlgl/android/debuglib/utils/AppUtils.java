@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.Toast;
 
 public class AppUtils {
 
@@ -72,9 +73,7 @@ public class AppUtils {
      */
     public static synchronized String getPackageName(Context context) {
         try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
-            return info.packageName;
+            return context.getPackageName();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,6 +111,15 @@ public class AppUtils {
                 ClipData mClipData = ClipData.newPlainText(text, text);
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
+            }
+        });
+    }
+
+    public static void showToast(final Context context, final String msg) {
+        MAIN_HANDLER.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

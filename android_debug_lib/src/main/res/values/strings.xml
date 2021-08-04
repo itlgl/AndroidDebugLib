@@ -1,8 +1,31 @@
 <resources>
-    <string name="android_debug_lib_name">DebugLib</string>
-    <string name="android_debug_lib_title">Android Debug Library</string>
-    <string name="android_debug_lib_port">端口设置：</string>
-    <string name="android_debug_lib_start_debug">开始Debug</string>
-    <string name="android_debug_lib_stop_debug">结束Debug</string>
-    <string name="android_debug_lib_adb_cmd">adb forward 指令\nadb forward tcp:8888 tcp:9999\n执行完该命令后，转发PC机8888端口的数据到手机的9999端口\n\nadb forward --list\n查看一下转发是否成功，只有通过USB成功连接了手机该命令才能成功\n\nadb forward --remove tcp:8888\n停止转发</string>
+    <string name="adl_view_app_files">View App Files</string>
+    <string name="adl_view_sdcard_files">View Sdcard Files</string>
+    <string name="adl_others">Other</string>
+    <string name="adl_send_to_clipboard">Send To Phone Clipboard</string>
+    <string name="adl_has_copy_to_clipboard">Copied To Clipboard</string>
+    <string name="adl_file_name">File Name</string>
+    <string name="adl_file_size">File Size</string>
+    <string name="adl_update_time">Update Time</string>
+    <string name="adl_file_operation">File Operation</string>
+    <string name="adl_download_file">Download</string>
+    <string name="adl_sql">sql</string>
+    <string name="adl_input_sql">input any sql here</string>
+    <string name="adl_execute_sql">Execute Sql</string>
+    <string name="adl_database_tables">DB Tables</string>
+    <string name="adl_file_format_not_support_tip">Unsupported file format, please select the file preview method</string>
+    <string name="adl_file_path_colon">File Path:</string>
+    <string name="adl_file_view_txt">Txt Preview</string>
+    <string name="adl_file_view_xml">XML Preview</string>
+    <string name="adl_file_view_json">JSON Preview</string>
+    <string name="adl_file_view_db">Sqlite Database Preview</string>
+    <string name="adl_more_file_format1">Want more supported formats?</string>
+    <string name="adl_more_file_format2">Mention a feature</string>
+    <string name="adl_parent_dir">parent dir</string>
+    <string name="adl_database">Database</string>
+    <string name="adl_send">Send</string>
+    <string name="adl_input_text">Input Text Here</string>
+    <string name="adl_test_toast">Test Send Toast Method</string>
+    <string name="adl_test_command">Test Send Command Method</string>
+    <string name="adl_input_command">Input Hex Command</string>
 </resources>
