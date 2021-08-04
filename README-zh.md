@@ -43,7 +43,7 @@ adb forward tcp:8080 tcp:8080
 
 ```groovy
 debug {
-    resValue("string", "adl_port", "8081")
+    resValue("integer", "adl_port", "8081")
 }
 ```
 

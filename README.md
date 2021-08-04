@@ -45,7 +45,7 @@ In the app build.gradle file under buildTypes do the following change
 
 ```groovy
 debug {
-    resValue("string", "adl_port", "8081")
+    resValue("integer", "adl_port", "8081")
 }
 ```
 
