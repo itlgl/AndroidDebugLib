@@ -41,7 +41,8 @@ public class GetHandler extends HttpMethodHandler {
 
     @Override
     public NanoHTTPD.Response handleMethod(NanoHTTPD.IHTTPSession session) throws Exception {
-        String strUri = session.getUri().toLowerCase();
+        String strUri = session.getUri();
+        String strUriLower = strUri.toLowerCase();
 
         if(URI_ROOT.equals(strUri) || URI_ROOT2.equals(strUri)) {
             String indexHtml = Utils.readAssetsFileString(getContext(), "index.html");
@@ -57,7 +58,7 @@ public class GetHandler extends HttpMethodHandler {
         }
 
         // app
-        if(strUri.startsWith("/app")) {
+        if(strUriLower.startsWith("/app")) {
             System.out.println("params=" + session.getParms());
             File file = new File(strUri.substring("/app".length()));
             if(!file.exists()) {
@@ -70,7 +71,7 @@ public class GetHandler extends HttpMethodHandler {
             }
         }
 
-        if(strUri.startsWith("/download")) {
+        if(strUriLower.startsWith("/download")) {
             File file = new File(strUri.substring("/download".length()));
             if(!file.exists() || file.isDirectory()) {
                 return Utils.response404(strUri);
