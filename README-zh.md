@@ -26,7 +26,7 @@
 #### 1. 在项目build.gradle文件中加入依赖
 
 ```groovy
-debugImplementation 'com.itlgl.android:androiddebuglib:0.1.0'
+debugImplementation 'com.itlgl.android:androiddebuglib:0.1.1'
 ```
 
 #### 2. PC开启adb透传
