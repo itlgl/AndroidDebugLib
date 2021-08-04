@@ -29,15 +29,15 @@
 debugImplementation 'com.itlgl.android:androiddebuglib:0.1.0'
 ```
 
-#### 2. PC开启adb透传
+#### 2. adb command on PC
 
-在连接测试机的PC上输入adb指令：
+Input the ADB command on the PC connected to the test machine:
 
 ```cmd
 adb forward tcp:8080 tcp:8080
 ```
 
-现在你可以在PC的浏览器上访问`http://localhost:8080`开始Debug了。
+Now you can access it on your PC's browser `http://localhost:8080` Start debugging.
 
 #### If you want use different port other than 8080.
 
