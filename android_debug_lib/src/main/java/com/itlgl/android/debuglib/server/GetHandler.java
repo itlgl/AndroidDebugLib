@@ -220,7 +220,7 @@ public class GetHandler extends HttpMethodHandler {
             }
 
             dbHtml = dbHtml.replace("${filePath}", file.getAbsolutePath())
-                    .replace("${sqlValue}", sql != null ? sql : "")
+                    .replace("${sqlValue}", sql != null ? sql.replace("\"", "'") : "")
                     .replace("${dbTableItems}", tableItemBuilder.toString());
 
             // 如果sql不为空，执行一下sql
