@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.itlgl.android.debuglib.utils.LogUtils;
 
-import fi.iki.elonen.NanoHTTPD;
+import fi.iki.elonen.NanoWSD;
 
-public class AndroidDebugServer extends NanoHTTPD {
+public class AndroidDebugServer extends NanoWSD {
     private final Context mContext;
     private final GetHandler mGetHandler;
     private final PostHandler mPostHandler;
@@ -20,10 +20,15 @@ public class AndroidDebugServer extends NanoHTTPD {
     }
 
     @Override
-    public Response serve(IHTTPSession session) {
+    protected WebSocket openWebSocket(IHTTPSession handshake) {
+        return new PtyWebSocket(mContext, handshake);
+    }
+
+    @Override
+    public Response serveHttp(IHTTPSession session) {
         Method method = session.getMethod();
         String strUri = session.getUri();
-        LogUtils.i("request serve uri = %s, method = %s", strUri, method);
+        LogUtils.d("request serve uri = %s, method = %s", strUri, method);
 
         Response response = null;
         try {

@@ -1,8 +1,5 @@
 package com.itlgl.android.debuglib.server.model;
 
-/**
- * @author guanliang on 2021/8/3
- */
 public class ApiResponse {
     public static final int CODE_SUCCESS = 0;
     public static final int CODE_NOT_REGISTER_IMPL = 1;

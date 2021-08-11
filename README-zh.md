@@ -26,7 +26,7 @@
 #### 1. 在项目build.gradle文件中加入依赖
 
 ```groovy
-debugImplementation 'com.itlgl.android:androiddebuglib:0.1.1'
+debugImplementation 'com.itlgl.android:androiddebuglib:0.1.2'
 ```
 
 #### 2. PC开启adb透传
@@ -90,7 +90,8 @@ curl 'http://localhost:8080/api/command' -H 'Content-Type: application/json;char
 
 ## 鸣谢
 
-[Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+ - [Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+ - [AnotherTerm](https://github.com/green-green-avk/AnotherTerm)
 
 ## License
 

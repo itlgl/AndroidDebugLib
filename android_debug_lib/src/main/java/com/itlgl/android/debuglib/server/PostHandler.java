@@ -11,6 +11,8 @@ import com.itlgl.android.debuglib.utils.AppUtils;
 import com.itlgl.android.debuglib.utils.LogUtils;
 import com.itlgl.java.util.ByteUtils;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,10 +28,11 @@ public class PostHandler extends HttpMethodHandler {
 
     @Override
     public NanoHTTPD.Response handleMethod(NanoHTTPD.IHTTPSession session) throws Exception {
-        String strUri = session.getUri().toLowerCase();
+        String strUri = session.getUri();
+        String strUriLower = strUri.toLowerCase();
 
         // api接口
-        if (strUri.startsWith("/api")) {
+        if (strUriLower.startsWith("/api")) {
             if (strUri.endsWith("/")) {
                 strUri = strUri.substring(strUri.length() - 1);
             }
@@ -41,14 +44,17 @@ public class PostHandler extends HttpMethodHandler {
 
             ApiRequest request = mGson.fromJson(jsonStr, ApiRequest.class);
 
-            if (strUri.equals("/api/toast")) {
+            if (strUriLower.equals("/api/toast")) {
                 return responseToast(session, request);
             }
-            if (strUri.equals("/api/clipboard")) {
+            if (strUriLower.equals("/api/clipboard")) {
                 return responseClipboard(session, request);
             }
-            if (strUri.equals("/api/command")) {
+            if (strUriLower.equals("/api/command")) {
                 return responseCommand(session, request);
+            }
+            if (strUriLower.equals("/api/console")) {
+                return responseConsole(session, request);
             }
         }
 
@@ -56,6 +62,8 @@ public class PostHandler extends HttpMethodHandler {
     }
 
     private NanoHTTPD.Response responseToast(NanoHTTPD.IHTTPSession session, ApiRequest request) {
+        responseConsole(session, request);
+
         if (TextUtils.isEmpty(request.message)) {
             return Utils.responseJson(mGson.toJson(new ApiResponse(1)));
         }
@@ -97,5 +105,58 @@ public class PostHandler extends HttpMethodHandler {
 
         String result = mGson.toJson(new ApiResponse(ApiResponse.CODE_EXECUTE_COMMAND_ERROR));
         return Utils.responseJson(result);
+    }
+
+    private synchronized NanoHTTPD.Response responseConsole(NanoHTTPD.IHTTPSession session, ApiRequest request) {
+
+        try {
+            final Process process = Runtime.getRuntime().exec("sh");
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            System.out.println("out -> " + line);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("out read error -> " + e);
+                        //e.printStackTrace();
+                    }
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            System.out.println("err -> " + line);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("err read error -> " + e);
+                        //e.printStackTrace();
+                    }
+                }
+            }).start();
+
+            process.getOutputStream().write("cd /sdcard\n".getBytes());
+            Thread.sleep(500);
+            process.getOutputStream().write("ls\n".getBytes());
+            Thread.sleep(500);
+            process.getOutputStream().write("pwd\n".getBytes());
+            Thread.sleep(500);
+            process.getOutputStream().write("exit\n".getBytes());
+            Thread.sleep(500);
+            process.getOutputStream().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Utils.responseJson(mGson.toJson(new ApiResponse(ApiResponse.CODE_SUCCESS)));
     }
 }
