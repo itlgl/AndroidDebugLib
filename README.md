@@ -4,7 +4,7 @@
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib/badge.svg)
 
 
-![English Doc](https://github.com/itlgl/AndroidDebugLib/raw/master/README.md)
+![English Doc](https://github.com/itlgl/AndroidDebugLib/raw/master/README.md) |
 ![中文文档](https://github.com/itlgl/AndroidDebugLib/raw/master/README-zh.md)
 
 ## Android Debug Lib is a powerful debugging library, which is convenient for developers to debug the database, preferences, file browsing and other functions in applications
@@ -13,6 +13,7 @@
 
 ## What can Android Debug Lib do
 
+* Terminal supported in web page
 * View and download all the files accessible by the current app, including databases and preferences, without the need for the device to root
 * Provides the preview function of TXT, XML, JSON, JPG, MP3 and MP4 files
 * The web page supports internationalization and is consistent with the app language environment

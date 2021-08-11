@@ -4,7 +4,7 @@
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.itlgl.android/androiddebuglib/badge.svg)
 
 
-![English Doc](https://github.com/itlgl/AndroidDebugLib/raw/master/README.md)
+![English Doc](https://github.com/itlgl/AndroidDebugLib/raw/master/README.md) |
 ![中文文档](https://github.com/itlgl/AndroidDebugLib/raw/master/README-zh.md)
 
 ## Android Debug Lib是一个功能强大的调试库，方便开发者调试应用中的数据库、首选项、浏览文件等功能
@@ -13,6 +13,7 @@
 
 ## Android Debug Lib可以做什么
 
+* 支持网页命令行工具
 * 查看和下载所有当前app可访问的文件，包括数据库和首选项，不需要设备进行root
 * 提供txt、xml、json、jpg、mp3、mp4文件的预览功能
 * 网页支持国际化，和app语言环境一致
