@@ -2,9 +2,6 @@ package com.itlgl.android.debuglib.utils;
 
 import java.io.IOException;
 
-/**
- * @author guanliang on 2021/8/6
- */
 public class ConsoleHelper {
     private static final ConsoleHelper INSTANCE = new ConsoleHelper();
 

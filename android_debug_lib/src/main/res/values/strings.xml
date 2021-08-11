@@ -28,5 +28,5 @@
     <string name="adl_test_toast">Test Send Toast Method</string>
     <string name="adl_test_command">Test Send Command Method</string>
     <string name="adl_input_command">Input Hex Command</string>
-    <string name="adl_console">Console</string>
+    <string name="adl_console">Terminal</string>
 </resources>

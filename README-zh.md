@@ -90,7 +90,8 @@ curl 'http://localhost:8080/api/command' -H 'Content-Type: application/json;char
 
 ## 鸣谢
 
-[Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+ - [Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+ - [AnotherTerm](https://github.com/green-green-avk/AnotherTerm)
 
 ## License
 

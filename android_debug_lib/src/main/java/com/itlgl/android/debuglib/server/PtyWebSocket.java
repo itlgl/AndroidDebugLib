@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.itlgl.android.debuglib.server.model.PtyRequest;
 import com.itlgl.android.debuglib.utils.AppUtils;
 import com.itlgl.android.debuglib.utils.LogUtils;
 import com.itlgl.java.util.ByteUtils;
@@ -31,6 +33,7 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
     private Thread mWatcherThread;
     private Thread mReaderThread;
     private Context mContext;
+    private final Gson mGson = new Gson();
 
     public PtyWebSocket(Context context, NanoHTTPD.IHTTPSession handshakeRequest) {
         super(handshakeRequest);
@@ -52,6 +55,7 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
         env.put("SHELL_SESSION_TOKEN", Long.toHexString(System.currentTimeMillis()).toUpperCase());
         env.put("TERM", "xterm");
         env.put("DATA_DIR", mContext.getApplicationInfo().dataDir);
+        env.put("APP_DIR", "/data/data/" + AppUtils.getPackageName(mContext));
         if (Build.VERSION.SDK_INT >= 24) {
             env.put("PROTECTED_DATA_DIR", mContext.getApplicationInfo().deviceProtectedDataDir);
         }
@@ -72,12 +76,13 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
 //        for (final Map.Entry<String, String> ei : envInput.entrySet())
 //            env.put("INPUT_" + ei.getKey(), ei.getValue());
 
-//        String execute = "sh" +
-//                "export TMPDIR=\"$DATA_DIR/tmp\"" +
-//                "mkdir -p \"$TMPDIR\"" +
-//                "export TERMSH=\"$LIB_DIR/libtermsh.so\"" +
-//                "cd \"$DATA_DIR\"";
-        String execute = "sh";
+//        String execute = "export TMPDIR=\"$DATA_DIR/tmp\"\n" +
+//                "mkdir -p \"$TMPDIR\"\n" +
+//                "export TERMSH=\"$LIB_DIR/libtermsh.so\"\n" +
+//                "cd \"$DATA_DIR\"\n" +
+//                "sh";
+        String execute = "cd \"$APP_DIR\"\n" +
+                "sh";
         final PtyProcess p = PtyProcess.system(execute, env);
         mPtyProcess = p;
         mPtyOut = p.getOutputStream();
@@ -129,7 +134,6 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
                         }
 
                         if(read > 0) {
-                            System.out.println("read==" + ByteUtils.toHex(mBuffer, 0, read));
                             send(Arrays.copyOfRange(mBuffer, 0, read));
                         }
                     }
@@ -159,7 +163,7 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
 
     private void closeWebSocket() {
         try {
-            send("pty closed");
+            send("terminal exit");
         } catch (IOException e) {
             //e.printStackTrace();
         }
@@ -184,8 +188,23 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
 
     @Override
     protected void onMessage(NanoWSD.WebSocketFrame message) {
+        // 解析窗口参数
+        String textPayload = message.getTextPayload();
+        if(textPayload != null && textPayload.startsWith("{") && textPayload.endsWith("}")) {
+            try {
+                PtyRequest ptyRequest = mGson.fromJson(textPayload, PtyRequest.class);
+                int w = ptyRequest.cols;
+                int h = ptyRequest.rows;
+                mPtyProcess.resize(w, h, w * 16, h * 16);
+                LogUtils.d("PtyWebSocket resize w=%s, h=%s", w, h);
+            } catch (Exception e) {
+                // ignore
+                LogUtils.d("PtyWebSocket parse term json error, %s", e);
+            }
+            return;
+        }
+
         byte[] binaryPayload = message.getBinaryPayload();
-        System.out.println("read from ws: " + message.getTextPayload());
         try {
             mPtyOut.write(binaryPayload);
         } catch (IOException e) {

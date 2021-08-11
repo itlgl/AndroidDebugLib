@@ -28,7 +28,7 @@ public class AndroidDebugServer extends NanoWSD {
     public Response serveHttp(IHTTPSession session) {
         Method method = session.getMethod();
         String strUri = session.getUri();
-        LogUtils.i("request serve uri = %s, method = %s", strUri, method);
+        LogUtils.d("request serve uri = %s, method = %s", strUri, method);
 
         Response response = null;
         try {
