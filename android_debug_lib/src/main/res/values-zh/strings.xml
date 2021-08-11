@@ -1,7 +1,7 @@
 <resources>
     <string name="adl_view_app_files">查看App内文件</string>
     <string name="adl_view_sdcard_files">查看Sdcard文件</string>
-    <string name="adl_others">其他辅助功能</string>
+    <string name="adl_api">APIs</string>
     <string name="adl_send_to_clipboard">发送到手机粘贴板</string>
     <string name="adl_has_copy_to_clipboard">已复制到粘贴板</string>
     <string name="adl_file_name">文件名称</string>
@@ -28,4 +28,5 @@
     <string name="adl_test_toast">测试发送Toast功能</string>
     <string name="adl_test_command">测试发送Command功能</string>
     <string name="adl_input_command">输入16进制的Command指令</string>
+    <string name="adl_console">命令行</string>
 </resources>

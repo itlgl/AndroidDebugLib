@@ -28,7 +28,8 @@
             <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item"><a href="javascript:loadAppFile();">##i18n.adl_view_app_files##</a></li>
                 <li class="layui-nav-item"><a href="javascript:loadSdcardFile();">##i18n.adl_view_sdcard_files##</a></li>
-                <li class="layui-nav-item"><a href="javascript:gotoClipboard();">##i18n.adl_others##</a></li>
+                <li class="layui-nav-item"><a href="javascript:gotoConsole();">##i18n.adl_console##</a></li>
+                <li class="layui-nav-item"><a href="javascript:gotoClipboard();">##i18n.adl_api##</a></li>
             </ul>
         </div>
     </div>
@@ -88,6 +89,10 @@
 
     function gotoClipboard() {
         document.getElementById('iframeContainer').src="/others.html";
+    }
+
+    function gotoConsole() {
+        document.getElementById('iframeContainer').src="/console.html";
     }
 
     /**

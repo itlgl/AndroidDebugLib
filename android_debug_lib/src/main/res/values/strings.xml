@@ -1,7 +1,7 @@
 <resources>
     <string name="adl_view_app_files">View App Files</string>
     <string name="adl_view_sdcard_files">View Sdcard Files</string>
-    <string name="adl_others">Other</string>
+    <string name="adl_api">APIs</string>
     <string name="adl_send_to_clipboard">Send To Phone Clipboard</string>
     <string name="adl_has_copy_to_clipboard">Copied To Clipboard</string>
     <string name="adl_file_name">File Name</string>
@@ -28,4 +28,5 @@
     <string name="adl_test_toast">Test Send Toast Method</string>
     <string name="adl_test_command">Test Send Command Method</string>
     <string name="adl_input_command">Input Hex Command</string>
+    <string name="adl_console">Console</string>
 </resources>

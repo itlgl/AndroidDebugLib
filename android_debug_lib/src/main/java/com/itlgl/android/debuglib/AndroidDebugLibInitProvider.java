@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.itlgl.android.debuglib.server.AndroidDebugServer;
+import com.itlgl.android.debuglib.utils.LogUtils;
 
 import java.io.IOException;
 
@@ -18,12 +20,15 @@ public class AndroidDebugLibInitProvider extends ContentProvider {
         int port = getContext().getResources().getInteger(R.integer.adl_port);
         AndroidDebugServer server = new AndroidDebugServer(getContext(), port);
         try {
-            server.start();
+            // WebSocket不设置超时时间
+            server.start(0);
+            Log.i("AndroidDebugServer", "AndroidDebugServer has started at port " + port);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
     @Override
