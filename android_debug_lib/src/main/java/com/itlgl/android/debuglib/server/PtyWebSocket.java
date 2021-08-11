@@ -1,8 +1,12 @@
 package com.itlgl.android.debuglib.server;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
 
+import com.itlgl.android.debuglib.utils.AppUtils;
 import com.itlgl.android.debuglib.utils.LogUtils;
 import com.itlgl.java.util.ByteUtils;
 
@@ -11,19 +15,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoWSD;
-import jackpal.androidterm.Exec;
-import jackpal.androidterm.TermExec;
+import green_green_avk.ptyprocess.PtyProcess;
 
 public class PtyWebSocket extends NanoWSD.WebSocket {
 
     private boolean mInit = false;
-    private ParcelFileDescriptor mTermFd;
-    private int mProcId;
-    private OutputStream mTermOutputStream;
-    private InputStream mTermInputStream;
+    private PtyProcess mPtyProcess;
+    private OutputStream mPtyOut;
+    private InputStream mPtyIn;
     private Thread mWatcherThread;
     private Thread mReaderThread;
     private Context mContext;
@@ -43,33 +47,46 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
         if(mInit) {
             return;
         }
-        try {
-            String homeDefValue = mContext.getDir("HOME", Context.MODE_PRIVATE).getAbsolutePath();
 
-            String[] env = new String[3];
-            env[0] = "TERM=" + "xterm";
-            env[1] = "PATH=" + System.getenv("PATH");
-            env[2] = "HOME=" + homeDefValue;
-
-            mTermFd = ParcelFileDescriptor.open(new File("/dev/ptmx"), ParcelFileDescriptor.MODE_READ_WRITE);
-            mProcId = TermExec.createSubprocess(mTermFd, "/system/bin/sh", null, env);
-            LogUtils.d("PtyWebSocket open pty success, mProcId=%s", mProcId);
-
-            mTermOutputStream = new ParcelFileDescriptor.AutoCloseOutputStream(mTermFd);
-            mTermInputStream = new ParcelFileDescriptor.AutoCloseInputStream(mTermFd);
-
-            Exec.setPtyWindowSizeInternal(mTermFd.getFd(), 80, 24, 0, 0);
-            Exec.setPtyUTF8ModeInternal(mTermFd.getFd(), true);
-
-            mTermOutputStream.write("ls\r".getBytes());
-
-            initWatcherThread();
-            initReadThread();
-
-            mInit = true;
-        } catch (Exception e) {
-            LogUtils.e("PtyWebSocket open pty error, %s", e);
+        final Map<String, String> env = new HashMap<>(System.getenv());
+        env.put("SHELL_SESSION_TOKEN", Long.toHexString(System.currentTimeMillis()).toUpperCase());
+        env.put("TERM", "xterm");
+        env.put("DATA_DIR", mContext.getApplicationInfo().dataDir);
+        if (Build.VERSION.SDK_INT >= 24) {
+            env.put("PROTECTED_DATA_DIR", mContext.getApplicationInfo().deviceProtectedDataDir);
         }
+        final File extDataDir = mContext.getExternalFilesDir(null);
+        if (extDataDir != null) {
+            env.put("EXTERNAL_DATA_DIR", extDataDir.getAbsolutePath());
+            env.put("SHARED_DATA_DIR", extDataDir.getAbsolutePath());
+        }
+        env.put("PUBLIC_DATA_DIR", Environment.getExternalStorageDirectory().getAbsolutePath());
+        env.put("LIB_DIR", mContext.getApplicationInfo().nativeLibraryDir);
+        env.put("APP_APK", mContext.getApplicationInfo().sourceDir);
+        env.put("APP_ID", AppUtils.getPackageName(mContext));
+        env.put("APP_VERSION", AppUtils.getAppName(mContext));
+        //env.put("APP_TARGET_SDK", Integer.toString(BuildConfig.TARGET_SDK_VERSION));
+        env.put("MY_DEVICE_ABIS", TextUtils.join(" ", AppUtils.getAbis()));
+        env.put("MY_ANDROID_SDK", Integer.toString(Build.VERSION.SDK_INT));
+//        // Input URIs
+//        for (final Map.Entry<String, String> ei : envInput.entrySet())
+//            env.put("INPUT_" + ei.getKey(), ei.getValue());
+
+//        String execute = "sh" +
+//                "export TMPDIR=\"$DATA_DIR/tmp\"" +
+//                "mkdir -p \"$TMPDIR\"" +
+//                "export TERMSH=\"$LIB_DIR/libtermsh.so\"" +
+//                "cd \"$DATA_DIR\"";
+        String execute = "sh";
+        final PtyProcess p = PtyProcess.system(execute, env);
+        mPtyProcess = p;
+        mPtyOut = p.getOutputStream();
+        mPtyIn = p.getInputStream();
+
+        initWatcherThread();
+        initReadThread();
+
+        mInit = true;
     }
 
     private void initWatcherThread() {
@@ -77,17 +94,24 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
         mWatcherThread = new Thread() {
             @Override
             public void run() {
-                LogUtils.i("PtyWebSocket waiting for: " + mProcId);
-                int result = TermExec.waitFor(mProcId);
-                LogUtils.i("PtyWebSocket Subprocess exited: " + result);
+                LogUtils.i("PtyWebSocket waiting exit");
+                int status;
+                while (true) {
+                    try {
+                        status = mPtyProcess.waitFor();
+                    } catch (final InterruptedException ignored) {
+                        continue;
+                    }
+                    break;
+                }
 
-                LogUtils.i("PtyWebSocket pty exit");
+                LogUtils.i("PtyWebSocket Subprocess exited: %s", status);
                 closeWebSocket();
                 closePty();
             }
         };
         mWatcherThread.setName("Process watcher");
-        mWatcherThread.start();
+        //mWatcherThread.start();
     }
 
     private void initReadThread() {
@@ -98,7 +122,7 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
             public void run() {
                 try {
                     while(true) {
-                        int read = mTermInputStream.read(mBuffer);
+                        int read = mPtyIn.read(mBuffer);
                         if (read == -1) {
                             // EOF -- process exited
                             break;
@@ -122,10 +146,10 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
     }
 
     private void closePty() {
-        TermExec.sendSignal(-mProcId, 1);
+        mPtyProcess.destroy();
         try {
-            mTermInputStream.close();
-            mTermOutputStream.close();
+            mPtyIn.close();
+            mPtyOut.close();
         } catch (IOException e) {
             // We don't care if this fails
         } catch (NullPointerException e) {
@@ -163,7 +187,7 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
         byte[] binaryPayload = message.getBinaryPayload();
         System.out.println("read from ws: " + message.getTextPayload());
         try {
-            mTermOutputStream.write(binaryPayload);
+            mPtyOut.write(binaryPayload);
         } catch (IOException e) {
             LogUtils.e("PtyWebSocket mTermOutputStream write error, %s", e);
         }

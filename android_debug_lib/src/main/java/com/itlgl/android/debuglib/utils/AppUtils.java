@@ -10,9 +10,12 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 public class AppUtils {
 
@@ -98,6 +101,13 @@ public class AppUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @NonNull
+    public static String[] getAbis() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) return Build.SUPPORTED_ABIS;
+        else if (Build.CPU_ABI2 != null) return new String[]{Build.CPU_ABI, Build.CPU_ABI2};
+        else return new String[]{Build.CPU_ABI};
     }
 
     public static Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
