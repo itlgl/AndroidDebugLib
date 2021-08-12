@@ -17,18 +17,7 @@ public class AndroidDebugLibInitProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        int port = getContext().getResources().getInteger(R.integer.adl_port);
-        AndroidDebugServer server = new AndroidDebugServer(getContext(), port);
-        try {
-            // WebSocket不设置超时时间
-            server.start(0);
-            Log.i("AndroidDebugServer", "AndroidDebugServer has started at port " + port);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return AndroidDebugServer.initDebugServer(getContext());
     }
 
     @Override

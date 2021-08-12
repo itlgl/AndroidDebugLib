@@ -1,8 +1,12 @@
 package com.itlgl.android.debuglib.server;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.itlgl.android.debuglib.R;
 import com.itlgl.android.debuglib.utils.LogUtils;
+
+import java.io.IOException;
 
 import fi.iki.elonen.NanoWSD;
 
@@ -10,6 +14,20 @@ public class AndroidDebugServer extends NanoWSD {
     private final Context mContext;
     private final GetHandler mGetHandler;
     private final PostHandler mPostHandler;
+
+    public static boolean initDebugServer(Context context) {
+        int port = context.getResources().getInteger(R.integer.adl_port);
+        AndroidDebugServer server = new AndroidDebugServer(context, port);
+        try {
+            // WebSocket 超时时间10分钟
+            server.start(10 * 60 * 1000);
+            Log.i("AndroidDebugServer", "AndroidDebugServer has started at port " + port);
+            return true;
+        } catch (IOException e) {
+            Log.e("AndroidDebugServer", "AndroidDebugServer start error port=" + port, e);
+        }
+        return false;
+    }
 
     public AndroidDebugServer(Context context, int port) {
         super(port);
