@@ -34,8 +34,7 @@ dependencies {
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'org.nanohttpd:nanohttpd-websocket:2.3.1'
     implementation 'com.itlgl:byteutil:0.1.2'
-    implementation 'com.jcraft:jsch:0.1.55'
-    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
 
 //    implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.13.2'

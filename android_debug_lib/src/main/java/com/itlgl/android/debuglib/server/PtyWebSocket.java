@@ -83,10 +83,20 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
 //                "sh";
         String execute = "cd \"$APP_DIR\"\n" +
                 "sh";
-        final PtyProcess p = PtyProcess.system(execute, env);
-        mPtyProcess = p;
-        mPtyOut = p.getOutputStream();
-        mPtyIn = p.getInputStream();
+        try {
+            mPtyProcess = PtyProcess.system(execute, env);
+        } catch (Exception e) {
+            LogUtils.e("PtyWebSocket fork pty error, %s", e);
+            try {
+                send("fork pty error, " + e + "\r\n");
+            } catch (IOException ex) {
+                //e.printStackTrace();
+            }
+            closeWebSocket();
+            return;
+        }
+        mPtyOut = mPtyProcess.getOutputStream();
+        mPtyIn = mPtyProcess.getInputStream();
 
         initWatcherThread();
         initReadThread();
@@ -150,7 +160,9 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
     }
 
     private void closePty() {
-        mPtyProcess.destroy();
+        if(mPtyProcess != null) {
+            mPtyProcess.destroy();
+        }
         try {
             mPtyIn.close();
             mPtyOut.close();

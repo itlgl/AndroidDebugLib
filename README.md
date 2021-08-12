@@ -27,7 +27,7 @@
 #### 1. Add this to your app's build.gradle
 
 ```gradle
-debugImplementation 'com.itlgl.android:androiddebuglib:0.1.2'
+debugImplementation 'com.itlgl.android:androiddebuglib:0.1.3'
 ```
 
 #### 2. adb command on PC
