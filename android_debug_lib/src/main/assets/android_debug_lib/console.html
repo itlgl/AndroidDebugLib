@@ -34,11 +34,14 @@
         term.focus();
 
         term.writeln('AndroidDebugLib terminal');
-        term.writeln('Powered by \x1B[1;3;31mxterm.js\x1B[0m & \x1B[1;3;31mAnotherTerm\x1B[0m');
+        term.writeln('Powered by \x1B[1;3;31mxterm.js\x1B[0m & \x1B[1;3;31mAnotherTerm\x1B[0m ');
         term.writeln('');
 
         console.log("term---" + term.cols + "," + term.rows);
         socket.send(JSON.stringify({ "op": "resize", "cols": term.cols, "rows": term.rows }));
+    }
+    socket.onclose = function() {
+        term.writeln('\r\n\x1B[1;3;31mTerminal closed by server\x1B[0m');
     }
 
     window.onbeforeunload=function(event){

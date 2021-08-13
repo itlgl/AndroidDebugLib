@@ -175,11 +175,6 @@ public class PtyWebSocket extends NanoWSD.WebSocket {
 
     private void closeWebSocket() {
         try {
-            send("terminal exit");
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
-        try {
             close(NanoWSD.WebSocketFrame.CloseCode.GoingAway,
                     "pty closed",
                     false);
