@@ -1,2 +1,0 @@
-include ':app', ':android_debug_lib'
-rootProject.name='AndroidDebugLib'
